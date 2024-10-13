@@ -1,0 +1,75 @@
+
+body {
+   font-family: 'Courier New', Courier, monospace;
+   background-color: #f2f2f2;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   height: 100vh;
+   margin: 0;
+}
+
+.container {
+   background-color: #fff;
+   padding: 20px;
+   border-radius: 10px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   text-align: center;
+}
+
+h1 {
+   margin-bottom: 20px;
+   color: #333;
+}
+
+form {
+   display: flex;
+   flex-direction: column;
+}
+
+input[type="text"],
+input[type="password"] {
+   padding: 10px;
+   margin: 10px 0;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+}
+
+input[type="submit"] {
+   padding: 10px;
+   border: none;
+   border-radius: 5px;
+   background-color: lightcoral;
+   color: white;
+   cursor: pointer;
+}
+
+input[type="submit"]:hover {
+   background-color: lightpink;
+}
+
+h4 a {
+   color: darkorange;
+   text-decoration: none;
+}
+
+h4 a:hover {
+   text-decoration: underline;
+}
+
+.login-image {
+   margin-top: 20px;
+   width: 100%;
+   max-width: 300px;
+   border-radius: 10px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+color: black;
+text-align: center;
+padding: 1rem 0;
+position: fixed;
+width: 100%;
+bottom: 0;
+}

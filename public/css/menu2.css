@@ -1,0 +1,69 @@
+body {
+    font-family:'Courier New', Courier, monospace;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    line-height: 1.6;
+}
+
+.coffee-menu {
+    display: flex; 
+    height: 80vh; 
+}
+
+.menu-image {
+    flex: 1; 
+    overflow: hidden; 
+}
+
+.food-img {
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+}
+
+.menu-content {
+    flex: 1; 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    padding: 20px; 
+    background-color: #f8f8f8; 
+}
+
+.menu-content h2 {
+    font-size: 28px;
+    margin-bottom: 20px; 
+    color: #333; 
+}
+
+.menu-item {
+    text-align: center; 
+    margin: 15px 0; 
+}
+
+.menu-item h3 {
+    margin: 0; 
+    color: #555; 
+}
+
+.menu-item p {
+    margin: 5px 0; 
+    color: #777; 
+}
+
+.coffee-icon {
+    height: 40px; 
+    margin-right: 10px; 
+    vertical-align: down; 
+}
+
+footer {
+    color: black;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}

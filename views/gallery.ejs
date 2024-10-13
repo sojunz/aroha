@@ -1,0 +1,65 @@
+<head>
+    <title>Aroha Café</title>
+    <link rel="stylesheet" href="/public/css/gallery.css">
+<%- include('partials/navbar2.ejs') %>
+</head>
+<body>
+    <section class="about-section">
+        <h2>About Aroha Café</h2>
+        <img src="/public/images/brew.png" alt="aroha" class="coffee-icon">  
+        <p>At Aroha Café, we believe in serving the best coffee with a warm heart. Established in 2024, our mission is to provide a cozy and welcoming environment where everyone can enjoy quality time with great coffee and delicious treats.</p>
+        <p>Our café embraces the spirit of Aroha, which means love and compassion in Māori. We are committed to respecting and celebrating Māori culture and traditions, integrating them into our café experience.</p>
+        <p>Join us for special events, live music, and much more. We look forward to making your experience memorable!</p>
+    </section>
+    
+    
+    
+    <div class="gallery-container">
+        <button id="prevBtn">Prev</button>
+        <div class="gallery-slider">
+            <img src="/public/images/bread.jpg" alt="bread">
+            <img src="/public/images/pieceofcake.jpg" alt="cake">
+            <img src="/public/images/nut.jpg" alt="nut">
+            <img src="/public/images/sandwitch.jpg" alt="sandwitch">
+            <img src="/public/images/icedcoffee.jpg" alt="icedcoffee">
+            <img src="/public/images/tomato.jpg" alt="tomato">
+        </div>
+        <button id="nextBtn">Next</button>
+    </div>
+
+<script>
+const prevBtn = document.getElementById('prevBtn');
+const nextBtn = document.getElementById('nextBtn');
+const gallerySlider = document.querySelector('.gallery-slider');
+let currentIndex = 0;
+
+prevBtn.addEventListener('click', () => {
+    if (currentIndex > 0) {
+        currentIndex--;
+        updateGallery();
+    }
+});
+
+nextBtn.addEventListener('click', () => {
+    if (currentIndex < gallerySlider.children.length - 1) {
+        currentIndex++;
+        updateGallery();
+    }
+});
+
+function updateGallery() {
+    const offset = -currentIndex * gallerySlider.children[0].clientWidth;
+    console.log('currentIndex:', currentIndex);  // Add console log to check the current index
+    console.log('offset:', offset);  // Add console log to check the offset value
+    gallerySlider.style.transform = `translateX(${offset}px)`;
+}
+</script>
+</body>
+<footer>
+    <img src="/public/images/brew.png" alt="aroha" class="coffee-icon">  
+        <p>&copy; 2024 Aroha Café | Designed with care.</p>
+    </footer>
+</body>
+</html>
+
+

@@ -1,0 +1,64 @@
+
+body {
+font-family: 'Courier New', Courier, monospace;
+margin: 0;
+}
+
+.about-section {
+padding: 20px;
+text-align: center;
+background-color: olive;
+color: white;
+}
+
+.row {
+display: flex;
+justify-content: center;
+flex-wrap: wrap;
+}
+
+.column {
+flex: 33.3%;
+max-width: 33.3%;
+padding: 0 8px;
+box-sizing: border-box;
+}
+
+.card {
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+margin: 16px;
+padding: 16px;
+text-align: center;
+background-color: #f1f1f1;
+}
+
+.container {
+padding: 0 16px;
+}
+
+.title {
+color: grey;
+}
+
+
+@media screen and (max-width: 650px) {
+.column {
+flex: 100%;
+max-width: 100%;
+}
+}
+
+.cupcake-icon {
+height: 90px; 
+margin-right: 10px; 
+vertical-align: middle; 
+}
+
+footer {
+color: black;
+text-align: center;
+padding: 1px 0;
+position: fixed;
+width: 100%;
+bottom: 0;
+}

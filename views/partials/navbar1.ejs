@@ -1,0 +1,51 @@
+<html>
+     <style>
+            nav {
+                display: flex;
+                justify-content: space-between; /* 로고와 내비게이션 항목을 양 끝에 배치 */
+                background-color: white; /* 네비게이션 배경색 */
+                padding: 10px 20px; /* 패딩 추가 */
+            }
+            
+            .nav-item a, .nav-item button {
+                color: black;
+                font-family: 'Courier New', Courier, monospace;
+                text-decoration: none;
+                padding: 10px 15px;
+                background-color: white;
+                border-radius: 5px;
+                cursor: pointer;
+            } 
+            
+            .navbar {
+                display: flex;
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                gap: 5px; /* 항목 사이 간격 */
+            }
+            
+            .nav-item {
+                display: flex;
+                align-items: center; /* 항목의 세로 정렬 */
+            }
+            
+            .logo {
+                height: 60px; /* 로고 높이 조정 */
+                margin-right: 20px; /* 로고와 내비게이션 항목 사이 간격 */
+            }
+</style>
+
+<nav>
+    <a href="special-event" id="logo">
+    <img src="public/images/logo.png" alt="Logo" class="logo">
+    <ul class="navbar">
+        <li class="nav-item"><a href="/">Home</a></li>
+        <li class="nav-item"><a href="/menu">Menu</a></li>
+        <li class="nav-item"><a href="/newsletter">News Letter</a></li>
+        <li class="nav-item"><a href="/contact">Contact</a></li>
+        <li class="nav-item"><a href="/login">Login</a></li>
+        <li class="nav-item"><a href="/register">Register</a></li>
+    </ul>
+</nav>
+</html>

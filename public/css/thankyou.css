@@ -1,0 +1,70 @@
+
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f8f5f2;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+h1 {
+    color: #d2691e;
+    font-size: 3em;
+    margin-top: 50px;
+    width: 500%;
+    max-width: 500px;
+}
+
+p {
+    font-size: 1.2em;
+    margin: 20px 0;
+}
+
+a {
+display: block;
+margin: 10px 0;
+padding: 10px 20px;
+background-color: pink;
+color: #fff;
+text-decoration: none;
+border-radius: 4px;
+transition: background-color 0.3s;
+}
+
+a:hover {
+background-color: darkkhaki;
+}
+
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 50px;
+}
+
+.image {
+margin-top: 20px;
+width: 100%;
+max-width: 300px;
+border-radius: 10px;
+box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.coffee-icon {
+height: 40px; 
+margin-right: 10px; 
+vertical-align: down; 
+}
+
+footer {
+color: black;
+text-align: center;
+padding: 1rem 0;
+position: fixed;
+width: 100%;
+bottom: 0;
+}

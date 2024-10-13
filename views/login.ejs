@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/public/css/login.css">
+</head>
+<body>
+    <header>
+        <title>Login / Register</title>
+        </header>
+    <div class="container">
+        <%- include('partials/navbar1.ejs') %>
+        <h1>Aroha Cafe</h1>
+        <h3>Login / Register</h3>
+        <form action="/auth" method="post">
+            <input type="text" name="username" placeholder="username" id="username" required>
+            <label for="password"></label>
+            <input type="password" name="password" placeholder="Password" id="password" required>
+            <input type="submit" value="Login">
+        </form>
+        <h4><a href="register">Register</a></h4>
+        <img src="public/images/cupcake.png" alt="cupcake" class="login-image">
+    </div>
+    <footer>
+        <p>&copy; 2024 Aroha Café | Designed with care.</p>
+    </footer>
+</body>
+</html>

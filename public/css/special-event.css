@@ -1,0 +1,70 @@
+/* special-event.css */
+body {
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    background-color: white;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin-top: 30px;
+}
+
+h1 {
+    font-size: 36px;
+    color: #d2691e;
+}
+
+a {
+    display: inline-block;
+    margin-top: 15px;
+    font-size: 18px;
+    text-decoration: none;
+    color: #6a5acd;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.event-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+.event-details {
+    margin-top: 30px;
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.event-details p {
+    margin: 10px 0;
+}
+
+footer {
+    background-color: none;
+    color: black;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: 40px;
+}
+
+footer img.cupcake-icon {
+    width: 50px;
+    vertical-align: middle;
+}
+
+footer p {
+    margin: 10px 0;
+    font-size: 14px;
+}
