@@ -4,14 +4,13 @@ body {
     margin: 0;
     padding: 0;
     line-height: 1.6;
-    text-align: center;
+    text-align: center; /* 모든 텍스트를 중앙 정렬 */
 }
 
 header {
     background-color: lightseagreen;
     color: white;
     padding: 10px 0;
-    text-align: center;
 }
 
 header h1 {
@@ -19,57 +18,68 @@ header h1 {
     font-size: 2rem;
 }
 
-.contact-form, .contact-info {
+main {
+    padding: 20px;
+}
+
+.message {
     background-color: white;
-    margin: 20px auto;
+    margin: 10px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
+    width: 80%;
+    text-align: left;
+    position: relative;
 }
 
-.contact-form h2, .contact-info h2 {
+.message h3 {
     color: #333;
-    margin-bottom: 10px;
 }
 
-.contact-form label, .contact-form input, .contact-form textarea {
-    display: block;
-    width: 100%;
-    margin-bottom: 10px;
+.message p {
+    margin: 5px 0;
 }
 
-.contact-form input, .contact-form textarea {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.message form {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: inline-block; /* Add inline-block display */
 }
 
-.contact-form button {
-    background-color: #333;
+.message button {
+    background-color: #ff4d4d;
     color: white;
-    padding: 10px 20px;
     border: none;
+    padding: 5px 10px;
     border-radius: 4px;
     cursor: pointer;
-}
-
-.contact-form button:hover {
-    background-color: #555;
-}
-
-footer {
-    background-color: lightseagreen;
-    color: white;
+    font-size: 14px;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    line-height: 1;
     text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    vertical-align: middle;
 }
 
-footer img {
-    height: 40px;
-    vertical-align: middle;
-    margin-right: 10px;
+.message button:hover {
+    background-color: #ff1a1a;
 }
+
+
+.coffee-icon {
+    height: 40px; 
+    margin-right: 10px; 
+    vertical-align: down; 
+    }
+    
+    footer {
+    color: black;
+    text-align: center;
+    padding: 1px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    }
