@@ -1,0 +1,27 @@
+<head>
+    <title>Messages - Aroha Cafe</title>
+    <link rel="stylesheet" href="/public/css/viewmessages.css">
+</head>
+<body>
+    <%- include('partials/navbar1.ejs') %>
+    <header>
+        <h1>Aroha Cafe - Messages</h1>
+    </header>
+    <main>
+        <h2>Customer Messages</h2>
+        <div class="messages">
+            <% messages.forEach(function(message) { %>
+                <div class="message">
+                    <h3><%= message.name %></h3>
+                    <p>Email: <%= message.email %></p>
+                    <p>Message: <%= message.message %></p>
+                </div>
+            <% }); %>
+        </div>
+    </main>
+    <footer>
+        <img src="/public/images/arohacafe.png" alt="arohacafe" class="coffee-icon">
+        <p>&copy; 2024 Aroha Cafe. All rights reserved.</p>
+    </footer>
+</body>
+</html>

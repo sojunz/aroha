@@ -133,6 +133,17 @@ app.post(['/contact', '/contact2'], function (req, res) {
     });
 });
 
+app.get('/viewmessages', (req, res) => {
+    conn.query('SELECT * FROM contactus', (error, results) => {
+        if (error) {
+            console.error('Database query error:', error);
+            res.status(500).send('An error occurred');
+            return;
+        }
+        res.render('viewmessages', { messages: results });
+    });
+});
+
 app.get('/special-event', function (req, res) {
     res.render("special-event");
 });
