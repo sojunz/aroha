@@ -119,6 +119,11 @@ app.post(['/contact', '/contact2'], function (req, res) {
     const name = req.body.name;
     const email = req.body.email;
     const message = req.body.message;
+
+    if (!name || !email || !message) {
+        return res.status(400).send('All fields are required!');
+    
+    }
     const sql = `INSERT INTO contactus(name,email,message) VALUES (?, ?, ?)`;
     console.log(sql);
 
@@ -143,6 +148,23 @@ app.get('/viewmessages', (req, res) => {
         res.render('viewmessages', { messages: results });
     });
 });
+
+app.post('/deletemessage', (req, res) => {
+    const messageId = req.body.id;
+    if (!messageId) {
+        return res.status(400).send('Message ID is required');
+    }
+
+    conn.query('DELETE FROM contactus WHERE id = ?', [messageId], (error, results) => {
+        if (error) {
+            console.error('Database query error:', error);
+            res.status(500).send('An error occurred');
+            return;
+        }
+        res.redirect('/viewmessages');
+    });
+});
+
 
 app.get('/special-event', function (req, res) {
     res.render("special-event");
