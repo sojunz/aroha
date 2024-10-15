@@ -10,21 +10,27 @@
     <main>
         <h2>Customer Messages</h2>
         <div class="messages">
-            <% messages.forEach(function(message) { %>
-                <div class="message">
-                    <h3><%= message.name %></h3>
-                    <p>Email: <%= message.email %></p>
-                    <p>Message: <%= message.message %></p>
-                    <form action="/deletemessage" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="<%= message.id %>">
-                        <button type="submit">Delete</button>
-                    </form>
-                </div>
-            <% }); %>
+            <% if (messages.length > 0) { %>
+                <% messages.forEach(function(message) { %>
+                    <div class="message">
+                        <h3><%= message.name %></h3>
+                        <p>Email: <%= message.email %></p>
+                        <p>Message: <%= message.message %></p>
+        
+                        <form action="/deletemessage" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="<%= message.id %>">
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No messages found.</p>
+            <% } %>
         </div>
+        
     </main>
     <footer>
-        <img src="/public/images/arohacafe.png" alt="arohacafe" class="coffee-icon">
+        <img src="/public/images/logo.png" alt="arohacafe" class="coffee-icon">
         <p>&copy; 2024 Aroha Cafe. All rights reserved.</p>
     </footer>
 </body>

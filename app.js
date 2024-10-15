@@ -151,17 +151,30 @@ app.get('/viewmessages', (req, res) => {
 
 app.post('/deletemessage', (req, res) => {
     const messageId = req.body.id;
-    if (!messageId) {
-        return res.status(400).send('Message ID is required');
-    }
+    const deleteQuery = 'DELETE FROM contactus WHERE id = ?';
 
-    conn.query('DELETE FROM contactus WHERE id = ?', [messageId], (error, results) => {
+    conn.query(deleteQuery, [messageId], (error, results) => {
+        if (error) {
+            console.error('Database delete error:', error); // 여기서 에러 정보를 출력합니다.
+            return res.status(500).send('Error deleting message');
+        }
+        if (results.affectedRows === 0) {
+            return res.status(404).send('Message not found'); // 삭제할 메시지를 찾지 못했을 때
+        }
+        console.log('Message deleted successfully:', results);
+        res.redirect('/viewmessages');
+    });
+});
+
+
+app.get('/deletemessage', function (req, res) {
+    conn.query('SELECT * FROM contactus', (error, results) => {
         if (error) {
             console.error('Database query error:', error);
             res.status(500).send('An error occurred');
             return;
         }
-        res.redirect('/viewmessages');
+        res.render('deletemessage', { messages: results });
     });
 });
 
