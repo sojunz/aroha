@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/public/css/member.css">
+</head>
+<body>
+    <div class="container">
+        <h3>Aroha Cafe Member</h3>
+        <img src="/public/images/draw.png" alt="Aroha Cafe" class="coffee-icon">
+        <br>
+        <form action="/member" method="post">
+            <input type="text" name="username" placeholder="Username" required>
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <input type="password" name="comfirmedpassword" placeholder="Confirm Password" required>
+            <select name="member">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <input type="submit" value="Register">
+        </form>
+        <h4><a href="/login">Login</a></h4>
+    </br>
+    </div>
+</body>
+<footer>
+    <img src="/public/images/thankyou.png" alt="Aroha Cafe" class="coffee-icon">
+    <p>&copy; 2024 Aroha Café | Designed with care.</p>
+</footer>
+</html>
+

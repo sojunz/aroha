@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/public/css/edit.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Members</h2>
+        <form action="/admin/edit/<%= user.id %>" method="post">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="<%= user.username %>" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="<%= user.email %>" required>
+            
+            <label for="member">Member:</label>
+            <select id="member" name="member">
+                <option value="yes" <%= user.member ? 'selected' : '' %>>Yes</option>
+                <option value="no" <%= !user.member ? 'selected' : '' %>>No</option>
+            </select>
+            
+            <button type="submit">Update</button>
+        </form>
+    </div>
+</body>
+<footer>
+    <img src="/public/images/logo.png" alt="ttl" class="coffee-icon">
+    <p>&copy; 2024 Aroha Café | Designed with care.</p>
+</footer>
+</html>

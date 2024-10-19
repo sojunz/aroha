@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/public/css/admin.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Users Situation</h2>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Member</th>
+                <th>Actions</th>
+            </tr>
+            <% if (users && users.length > 0) { %>
+                <% users.forEach(function(user) { %>
+                    <tr>
+                        <td><%= user.username %></td>
+                        <td><%= user.email %></td>
+                        <td><%= user.member ? 'Yes' : 'No' %></td>
+                        <td>
+                            <a href="/admin/edit/<%= user.id %>">Edit</a>
+                            <a href="/admin/delete/<%= user.id %>">Delete</a>
+                        </td>
+                    </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="4">No users found.</td>
+                </tr>
+            <% } %>
+        </table>
+    </div>
+</body>
+<footer>
+    <img src="/public/images/logo.png" alt="ttl" class="coffee-icon">
+    <p>&copy; 2024 Aroha Café | Designed with care.</p>
+</footer>
+</html>
+
+
+
+
