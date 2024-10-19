@@ -182,6 +182,26 @@ app.get('/admin/delete/:id', function (req, res) {
     });
 });
 
+app.post('/newsletter', function (req, res) {
+    const username = req.body.username; // 오타 수정: name -> username
+    const email = req.body.email;
+
+    if (!username || !email) {
+        console.error('Validation error: All fields are required!');
+        return res.status(400).send('All fields are required!');
+    }
+    const sql = `INSERT INTO users (username, email, subscribed) VALUES (?, ?, 1)
+                 ON DUPLICATE KEY UPDATE subscribed = 1, username = VALUES(username)`;
+    conn.query(sql, [username, email], function (err, result) {
+        if (err) {
+            console.error('Database error:', err.message);
+            return res.status(500).send('Failed to subscribe');
+        }
+        console.log('User subscribed:', result);
+        res.redirect('/thank-you');
+    });
+});
+
 app.get('/menu', function (req, res) {
     res.render("menu");
 });
