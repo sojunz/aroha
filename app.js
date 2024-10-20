@@ -162,6 +162,10 @@ app.get('/thanks', function (req, res) {
     res.render('thanks');
 });
 
+app.get('/thanks2' , function (req, res) {
+    res.render('thanks2');
+});
+
 app.get('/admin', function (req, res) {
     res.render('admin');
 });
@@ -283,7 +287,7 @@ app.post('/newsletter2', function (req, res) {
                 return res.status(500).send('Failed to subscribe');
             }
             console.log('User subscribed:', result);
-            res.redirect('/thank-you');
+            res.redirect('/thanks2');
         });
     });
 });
