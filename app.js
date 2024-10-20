@@ -81,38 +81,53 @@ app.get('/member', function (req, res) {
 });
 
 app.post('/member', async function (req, res) {
-    console.log('Registering user at /member:', req.body);
-    const username = req.body.username;
-    const email = req.body.email;
-    const password = req.body.password;
-    const confirmPassword = req.body.comfirmedpassword; // 대소문자 맞춤
+    const { username, email, password, comfirmedpassword } = req.body;
+    console.log('Received data:', { username, email, password, comfirmedpassword });
 
-    const member = req.body.member === 'yes' ? 1 : 0;
-
-    if (!username || !email || !password || !confirmPassword) {
+    if (!username || !email || !password || !comfirmedpassword) {
         console.error('Validation error: All fields are required!');
         return res.status(400).send('All fields are required!');
     }
 
-    if (password !== confirmPassword) {
+    if (password !== comfirmedpassword) {
         console.error('Validation error: Passwords do not match!');
         return res.status(400).send('Passwords do not match!');
     }
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        console.log('Hashed password:', hashedPassword);
 
-        const sql = `INSERT INTO users (username, email, password, comfirmedpassword, member) VALUES (?, ?, ?, ?, ?)`;
-        conn.query(sql, [username, email, hashedPassword, confirmPassword, member], function (err, result) {
-            if (err) {
-                console.error('Database error:', err.message);
-                console.error('SQL Query:', sql);
-                console.error('Query Parameters:', [username, email, hashedPassword, confirmPassword, member]);
-                return res.status(500).send('Failed to register user');
+        // Check if the email already exists
+        const checkSql = 'SELECT * FROM users WHERE email = ?';
+        conn.query(checkSql, [email], (checkErr, checkResult) => {
+            if (checkErr) {
+                console.error('Database query error:', checkErr);
+                return res.status(500).send('An error occurred');
             }
-            console.log('User registered:', result);
-            res.redirect('/thank-you');
+
+            if (checkResult.length > 0) {
+                // Update the existing user
+                const updateSql = 'UPDATE users SET username = ?, password = ?, comfirmedpassword = ?, member = ? WHERE email = ?';
+                conn.query(updateSql, [username, hashedPassword, comfirmedpassword, 1, email], (updateErr, updateResult) => {
+                    if (updateErr) {
+                        console.error('Database update error:', updateErr);
+                        return res.status(500).send('Failed to update user');
+                    }
+                    console.log('User updated:', updateResult);
+                    res.redirect('/thank-you');
+                });
+            } else {
+                // Insert a new user
+                const insertSql = 'INSERT INTO users (username, email, password, comfirmedpassword, member) VALUES (?, ?, ?, ?, ?)';
+                conn.query(insertSql, [username, email, hashedPassword, comfirmedpassword, 1], (insertErr, insertResult) => {
+                    if (insertErr) {
+                        console.error('Database error:', insertErr.message);
+                        return res.status(500).send('Failed to register user');
+                    }
+                    console.log('User registered:', insertResult);
+                    res.redirect('/thank-you');
+                });
+            }
         });
     } catch (error) {
         console.error('Error hashing password:', error);
@@ -122,6 +137,29 @@ app.post('/member', async function (req, res) {
 
 app.get('/thank-you', function (req, res) {
     res.render('thank-you');
+});
+
+app.get('/admin', function (req, res) {
+    res.render('admin');
+});
+
+app.get('/admin/users', function (req, res) {
+    conn.query('SELECT * FROM users', function (error, results) {
+        if (error) {
+            console.error('Database query error:', error);
+            return res.status(500).send('An error occurred');
+        }
+        console.log('Fetched users:', results); // 사용자 목록을 로그로 확인
+        res.render('admin', { users: results });
+    });
+});
+
+app.get('/thank-you', function (req, res) {
+    res.render('thank-you');
+});
+
+app.get('/thanks', function (req, res) {
+    res.render('thanks');
 });
 
 app.get('/admin', function (req, res) {
@@ -180,28 +218,75 @@ app.get('/admin/delete/:id', function (req, res) {
     });
 });
 
-app.post(['/newsletter', '/newsletter2'], function (req, res) {
-    const username = req.body.username;
-    const email = req.body.email;
+app.post('/newsletter', function (req, res) {
+    const { username, email } = req.body;
 
     if (!username || !email) {
         console.error('Validation error: All fields are required!');
         return res.status(400).send('All fields are required!');
     }
 
-    const sql = `INSERT INTO users (username, email, subscribed, member) VALUES (?, ?, 1, 0)
-                 ON DUPLICATE KEY UPDATE subscribed = 1, username = VALUES(username), member = 0`;
-
-    conn.query(sql, [username, email], function (err, result) {
-        if (err) {
-            console.error('Database error:', err.message);
-            return res.status(500).send('Failed to subscribe');
+    // Check if the email already exists with a different username
+    const checkSql = 'SELECT * FROM users WHERE email = ?';
+    conn.query(checkSql, [email], (checkErr, checkResult) => {
+        if (checkErr) {
+            console.error('Database query error:', checkErr);
+            return res.status(500).send('An error occurred');
         }
-        console.log('User subscribed:', result);
-        res.redirect('/thank-you');
+
+        if (checkResult.length > 0 && checkResult[0].username !== username) {
+            return res.status(400).send('Email is already registered with a different username');
+        }
+
+        // Proceed with inserting or updating the user
+        const sql = `INSERT INTO users (username, email, subscribed, member) VALUES (?, ?, 1, 0)
+                     ON DUPLICATE KEY UPDATE subscribed = 1, username = VALUES(username), member = 0`;
+
+        conn.query(sql, [username, email], (err, result) => {
+            if (err) {
+                console.error('Database error:', err.message);
+                return res.status(500).send('Failed to subscribe');
+            }
+            console.log('User subscribed:', result);
+            res.redirect('/thanks');
+        });
     });
 });
 
+app.post('/newsletter2', function (req, res) {
+    const { username, email } = req.body;
+
+    if (!username || !email) {
+        console.error('Validation error: All fields are required!');
+        return res.status(400).send('All fields are required!');
+    }
+
+    // Check if the email already exists with a different username
+    const checkSql = 'SELECT * FROM users WHERE email = ?';
+    conn.query(checkSql, [email], (checkErr, checkResult) => {
+        if (checkErr) {
+            console.error('Database query error:', checkErr);
+            return res.status(500).send('An error occurred');
+        }
+
+        if (checkResult.length > 0 && checkResult[0].username !== username) {
+            return res.status(400).send('Email is already registered with a different username');
+        }
+
+        // Proceed with inserting or updating the user
+        const sql = `INSERT INTO users (username, email, subscribed, member) VALUES (?, ?, 1, 0)
+                     ON DUPLICATE KEY UPDATE subscribed = 1, username = VALUES(username), member = 0`;
+
+        conn.query(sql, [username, email], (err, result) => {
+            if (err) {
+                console.error('Database error:', err.message);
+                return res.status(500).send('Failed to subscribe');
+            }
+            console.log('User subscribed:', result);
+            res.redirect('/thank-you');
+        });
+    });
+});
 
 app.get('/menu', function (req, res) {
     res.render("menu");
@@ -284,7 +369,6 @@ app.get('/deletemessage', function (req, res) {
         res.render('deletemessage', { messages: results });
     });
 });
-
 
 app.get('/special-event', function (req, res) {
     res.render("special-event");
