@@ -23,6 +23,11 @@ h3 {
     margin-bottom: 20px;
 }
 
+h4 a {
+    color: darkorange;
+    text-decoration: none;
+ }
+
 form {
     display: flex;
     flex-direction: column;
@@ -54,7 +59,7 @@ input[type="submit"]:hover {
 }
 
 .coffee-icon {
-    height: 90px; 
+    height: 50px; 
     margin-right: 10px; 
     vertical-align: middle; 
  } 

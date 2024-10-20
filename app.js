@@ -180,35 +180,28 @@ app.get('/admin/delete/:id', function (req, res) {
     });
 });
 
-app.post('/newsletter', function (req, res) {
-    const username = req.body.username; // 오타 수정: name -> username
+app.post(['/newsletter', '/newsletter2'], function (req, res) {
+    const username = req.body.username;
     const email = req.body.email;
+
     if (!username || !email) {
         console.error('Validation error: All fields are required!');
         return res.status(400).send('All fields are required!');
     }
-    const sql = `INSERT INTO users (username, email, subscribed) VALUES (?, ?, 1)
-                 ON DUPLICATE KEY UPDATE subscribed = 1, username = VALUES(username)`;
+
+    const sql = `INSERT INTO users (username, email, subscribed, member) VALUES (?, ?, 1, 0)
+                 ON DUPLICATE KEY UPDATE subscribed = 1, username = VALUES(username), member = 0`;
+
     conn.query(sql, [username, email], function (err, result) {
         if (err) {
             console.error('Database error:', err.message);
             return res.status(500).send('Failed to subscribe');
         }
         console.log('User subscribed:', result);
-
-        // Additional query to ensure the user is marked as a non-member in the admin user list
-        const memberSql = `INSERT INTO admin_users (username, email, member) VALUES (?, ?, 0)
-                           ON DUPLICATE KEY UPDATE member = 0, username = VALUES(username)`;
-        conn.query(memberSql, [username, email], function (memberErr, memberResult) {
-            if (memberErr) {
-                console.error('Admin user update error:', memberErr.message);
-                return res.status(500).send('Failed to update admin user list');
-            }
-            console.log('Admin user updated:', memberResult);
-            res.redirect('/thank-you');
-        });
+        res.redirect('/thank-you');
     });
 });
+
 
 app.get('/menu', function (req, res) {
     res.render("menu");
