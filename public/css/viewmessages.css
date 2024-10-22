@@ -43,7 +43,7 @@ main {
 
 
 .message button {
-    background-color: #ff4d4d;
+    background-color: pink;
     color: white;
     border: none;
     padding: 5px 10px;
@@ -59,7 +59,7 @@ main {
 }
 
 .message button:hover {
-    background-color: #ff1a1a;
+    background-color: olive;
 }
 
 

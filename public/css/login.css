@@ -45,7 +45,7 @@ input[type="submit"] {
 }
 
 input[type="submit"]:hover {
-   background-color: lightpink;
+   background-color: olive;
 }
 
 h4 a {

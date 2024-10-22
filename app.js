@@ -101,20 +101,27 @@ app.post('/member', async function (req, res) {
             }
 
             if (checkResult.length > 0) {
-                // Update the existing user
-                const updateSql = 'UPDATE users SET username = ?, password = ?, member = ? WHERE email = ?';
-                conn.query(updateSql, [username, hashedPassword, 1, email], (updateErr, updateResult) => {
-                    if (updateErr) {
-                        console.error('Database update error:', updateErr);
-                        return res.status(500).send('Failed to update user');
-                    }
-                    console.log('User updated:', updateResult);
-                    res.redirect('/thank-you');
-                });
+                // Email already exists, check subscription and member status
+                const existingUser = checkResult[0];
+                if (existingUser.subscribed === 1 && existingUser.member === 0) {
+                    // Update the existing user
+                    const updateSql = 'UPDATE users SET username = ?, password = ?, member = ? WHERE email = ?';
+                    conn.query(updateSql, [username, hashedPassword, 1, email], (updateErr, updateResult) => {
+                        if (updateErr) {
+                            console.error('Database update error:', updateErr);
+                            return res.status(500).send('Failed to update user');
+                        }
+                        console.log('User updated:', updateResult);
+                        res.redirect('/thank-you');
+                    });
+                } else {
+                    // Email is already registered with a different status
+                    return res.status(400).send('Email is already registered with a different status');
+                }
             } else {
-                // Insert a new user
-                const insertSql = 'INSERT INTO users (username, email, password, member) VALUES (?, ?, ?, ?)';
-                conn.query(insertSql, [username, email, hashedPassword, 1], (insertErr, insertResult) => {
+                // Insert a new user and set subscribed = 1
+                const insertSql = 'INSERT INTO users (username, email, password, member, subscribed) VALUES (?, ?, ?, 1, 1)';
+                conn.query(insertSql, [username, email, hashedPassword], (insertErr, insertResult) => {
                     if (insertErr) {
                         console.error('Database error:', insertErr.message);
                         return res.status(500).send('Failed to register user');
@@ -129,6 +136,7 @@ app.post('/member', async function (req, res) {
         return res.status(500).send('Failed to register user');
     }
 });
+
 
 app.get('/thank-you', function (req, res) {
     res.render('thank-you');
@@ -302,7 +310,7 @@ app.get('/thanks2' , function (req, res) {
     res.render('thanks2');
 });
 
-app.get(['/menu', '/menu2'], (req, res) => {
+app.get('/menu', (req, res) => {
     const sql = 'SELECT * FROM menus';
     conn.query(sql, (err, results) => {
         if (err) {
@@ -310,6 +318,17 @@ app.get(['/menu', '/menu2'], (req, res) => {
             return res.status(500).send('Failed to retrieve menu');
         }
         res.render('menu', { menus: results });
+    });
+});
+
+app.get('/menu2', (req, res) => {
+    const sql = 'SELECT * FROM menus';
+    conn.query(sql, (err, results) => {
+        if (err) {
+            console.error('Database query error:', err);
+            return res.status(500).send('Failed to retrieve menu');
+        }
+        res.render('menu2', { menus: results });
     });
 });
 

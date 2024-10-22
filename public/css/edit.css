@@ -44,7 +44,7 @@ select {
 }
 
 button {
-    background-color: tomato;
+    background-color: pink;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -54,7 +54,7 @@ button {
 }
 
 button:hover {
-    background-color: lightseagreen;
+    background-color: olive;
 }
 
 .coffee-icon {
