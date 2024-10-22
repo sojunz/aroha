@@ -81,17 +81,12 @@ app.get('/member', function (req, res) {
 });
 
 app.post('/member', async function (req, res) {
-    const { username, email, password, comfirmedpassword } = req.body;
-    console.log('Received data:', { username, email, password, comfirmedpassword });
+    const { username, email, password } = req.body;
+    console.log('Received data:', { username, email, password });
 
-    if (!username || !email || !password || !comfirmedpassword) {
+    if (!username || !email || !password) {
         console.error('Validation error: All fields are required!');
         return res.status(400).send('All fields are required!');
-    }
-
-    if (password !== comfirmedpassword) {
-        console.error('Validation error: Passwords do not match!');
-        return res.status(400).send('Passwords do not match!');
     }
 
     try {
@@ -107,8 +102,8 @@ app.post('/member', async function (req, res) {
 
             if (checkResult.length > 0) {
                 // Update the existing user
-                const updateSql = 'UPDATE users SET username = ?, password = ?, comfirmedpassword = ?, member = ? WHERE email = ?';
-                conn.query(updateSql, [username, hashedPassword, comfirmedpassword, 1, email], (updateErr, updateResult) => {
+                const updateSql = 'UPDATE users SET username = ?, password = ?, member = ? WHERE email = ?';
+                conn.query(updateSql, [username, hashedPassword, 1, email], (updateErr, updateResult) => {
                     if (updateErr) {
                         console.error('Database update error:', updateErr);
                         return res.status(500).send('Failed to update user');
@@ -118,8 +113,8 @@ app.post('/member', async function (req, res) {
                 });
             } else {
                 // Insert a new user
-                const insertSql = 'INSERT INTO users (username, email, password, comfirmedpassword, member) VALUES (?, ?, ?, ?, ?)';
-                conn.query(insertSql, [username, email, hashedPassword, comfirmedpassword, 1], (insertErr, insertResult) => {
+                const insertSql = 'INSERT INTO users (username, email, password, member) VALUES (?, ?, ?, ?)';
+                conn.query(insertSql, [username, email, hashedPassword, 1], (insertErr, insertResult) => {
                     if (insertErr) {
                         console.error('Database error:', insertErr.message);
                         return res.status(500).send('Failed to register user');
@@ -162,7 +157,7 @@ app.get('/thanks', function (req, res) {
     res.render('thanks');
 });
 
-app.get('/thanks2' , function (req, res) {
+app.get('/thanks2' , (req, res) => {
     res.render('thanks2');
 });
 
@@ -279,8 +274,7 @@ app.post('/newsletter2', function (req, res) {
 
         // Proceed with inserting or updating the user
         const sql = `INSERT INTO users (username, email, subscribed, member) VALUES (?, ?, 1, 0)
-                     ON DUPLICATE KEY UPDATE subscribed = 1, username = VALUES(username), member = 0`;
-
+                     ON DUPLICATE KEY UPDATE subscribed = 1, username = VALUES(username), member = 1`;
         conn.query(sql, [username, email], (err, result) => {
             if (err) {
                 console.error('Database error:', err.message);
