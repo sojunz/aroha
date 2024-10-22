@@ -157,7 +157,7 @@ app.get('/thanks', function (req, res) {
     res.render('thanks');
 });
 
-app.get('/thanks2' , (req, res) => {
+app.get('/thanks2' , function (req, res) {
     res.render('thanks2');
 });
 
@@ -217,6 +217,10 @@ app.get('/admin/delete/:id', function (req, res) {
     });
 });
 
+app.get('/newsletter', function (req, res) {
+    res.render("newsletter");
+});
+
 app.post('/newsletter', function (req, res) {
     const { username, email } = req.body;
 
@@ -250,6 +254,14 @@ app.post('/newsletter', function (req, res) {
             res.redirect('/thanks');
         });
     });
+});
+
+app.get('/thanks', function (req, res) {
+    res.render('thanks');
+});
+
+app.get('/newsletter2', function (req, res) {
+    res.render("newsletter2");
 });
 
 app.post('/newsletter2', function (req, res) {
@@ -286,8 +298,35 @@ app.post('/newsletter2', function (req, res) {
     });
 });
 
-app.get('/menu', function (req, res) {
-    res.render("menu");
+app.get('/thanks2' , function (req, res) {
+    res.render('thanks2');
+});
+
+app.get(['/menu', '/menu2'], (req, res) => {
+    const sql = 'SELECT * FROM menus';
+    conn.query(sql, (err, results) => {
+        if (err) {
+            console.error('Database query error:', err);
+            return res.status(500).send('Failed to retrieve menu');
+        }
+        res.render('menu', { menus: results });
+    });
+});
+
+app.get('/admin/add-menu', (req, res) => {
+    res.render('admin-add');
+});
+
+app.post('/admin/add-menu', (req, res) => {
+    const { name, description, price, category } = req.body;
+    const sql = 'INSERT INTO menus (name, description, price, category) VALUES (?,?,?,?)';
+    conn.query(sql, [name, description || 'No description provided', price, category || 'general'], (err, result) => {
+        if (err) {
+            console.error('Database error:', err);
+            return res.status(500).send('Failed to add menu item');
+        }
+        res.redirect('/menu2');
+    });
 });
 
 app.get('/menu2', function (req, res) {
@@ -374,14 +413,6 @@ app.get('/special-event', function (req, res) {
 
 app.get('/aboutus', function (req, res) {
     res.render("aboutus");
-});
-
-app.get('/newsletter', function (req, res) {
-    res.render("newsletter");
-});
-
-app.get('/newsletter2', function (req, res) {
-    res.render("newsletter2");
 });
 
 app.get('/gallery', function (req, res) {
