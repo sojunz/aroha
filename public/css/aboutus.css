@@ -40,14 +40,6 @@ padding: 0 16px;
 color: grey;
 }
 
-
-@media screen and (max-width: 650px) {
-.column {
-flex: 100%;
-max-width: 100%;
-}
-}
-
 .cupcake-icon {
 height: 90px; 
 margin-right: 10px; 

@@ -7,12 +7,19 @@ body {
 }
 
 .gallery-container {
-    position: relative;
-    overflow: hidden;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 10px;
     width: 100%;
-    display: flex;
-    align-items: center;
 }
+
+.gallery-container img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 10px; /* 선택사항: 이미지 모서리를 둥글게 만들고 싶을 때 */
+}
+
 
 button {
     position: absolute;

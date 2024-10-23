@@ -137,7 +137,6 @@ app.post('/member', async function (req, res) {
     }
 });
 
-
 app.get('/thank-you', function (req, res) {
     res.render('thank-you');
 });
