@@ -1,25 +1,56 @@
+<html>
 <head>
     <link rel="stylesheet" href="/public/css/menu.css">
 </head>
 <body>
     <%- include('partials/navbar1.ejs') %>
-    <section class="coffee-menu">
-        <div class="menu-image">
-            <img src="/public/images/threecoffee.jpg" alt="coffees" class="food-img">
-        </div>
-        <div class="menu-content">
+   <section class="coffee-menu">
+    <img src="/public/images/threecoffee.jpg" alt="coffee" class="menu-image">
+    <img src="/public/images/macaroon.jpg" alt="macaroon" class="menu-image">
+    <img src="/public/images/threecoffee.jpg" alt="coffee" class="menu-image">
+    <img src="/public/images/macaroon.jpg" alt="macaroon" class="menu-image">
+    <img src="/public/images/threecoffee.jpg" alt="coffee" class="menu-image">
+    <img src="/public/images/macaroon.jpg" alt="macaroon" class="menu-image">
+    <img src="/public/images/threecoffee.jpg" alt="coffee" class="menu-image">
+    <img src="/public/images/macaroon.jpg" alt="macaroon" class="menu-image">
+    <img src="/public/images/threecoffee.jpg" alt="coffee" class="menu-image">
+        <div class="menu-content">  
             <h2>Our Menu</h2>
-            <% menus.forEach(menu => { %>
-                <div class="menu-item">
-                    <h3><%= menu.name %></h3>
-                    <p><%= menu.description %></p>
-                    <p>$<%= menu.price.toFixed(2) %></p>
-                </div>
+            <form id="menu-filter">
+                <label for="category">Choose a category:</label>
+                <select id="category" name="category">
+                    <% categories.forEach(category => { %>
+                        <option value="<%= category.id %>"><%= category.name %></option>
+                    <% }); %>
+                </select>
+            </form>
+            <% categories.forEach(category => { %>
+                <h3><%= category.name %></h3>
+                <% menus.filter(menu => menu.category_id === category.id).forEach(menu => { %>
+                    <div class="menu-item" data-category-id="<%= menu.category_id %>">
+                        <h3><%= menu.name %></h3>
+                        <p><%= menu.description %></p>
+                        <p>$<%= menu.price.toFixed(2) %></p>
+                    </div>
+                <% }); %>
             <% }); %>
         </div>
     </section>
     <footer>
-        <img src="/public/images/tool.png" alt="tool" class="coffee-icon">
         <p>&copy; 2024 Aroha Café | Designed with care.</p>
     </footer>
+    <script>
+        document.getElementById('category').addEventListener('change', function() {
+            const selectedCategory = this.value;
+            const menuItems = document.querySelectorAll('.menu-item');
+            menuItems.forEach(item => {
+                item.style.display = item.dataset.categoryId === selectedCategory ? 'block' : 'none';
+            });
+        });
+    </script>
 </body>
+</html>
+
+
+
+

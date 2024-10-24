@@ -1,62 +1,68 @@
 body {
-    font-family:'Courier New', Courier, monospace;
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #f8f9fa;
+    color: #333;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    line-height: 1.6;
 }
 
 .coffee-menu {
-    display: flex; 
-    height: 80vh; 
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#category {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #343a40;
+    border-radius: 5px;
+    background-color: #ffffff;
+    color: #333;
+}
+
+.coffee-menu h2 {
+    margin-top: 0;
+    font-size: 2rem;
+    color: #343a40;
 }
 
 .menu-image {
-    flex: 1; 
-    overflow: hidden; 
-}
-
-.food-img {
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
+    width: 10%;
+    height: 200px; /* 높이를 원하는 크기로 설정하세요 */
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    margin-bottom: 2rem;
 }
 
 .menu-content {
-    flex: 1; 
     display: flex;
-    flex-direction: column; 
-    align-items: center;
-    justify-content: center; 
-    padding: 20px; 
-    background-color: #f8f8f8; 
-}
-
-.menu-content h2 {
-    font-size: 28px;
-    margin-bottom: 20px; 
-    color: #333; 
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .menu-item {
-    text-align: center; 
-    margin: 15px 0; 
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
 }
 
 .menu-item h3 {
-    margin: 0; 
-    color: #555; 
+    margin: 0;
+    font-size: 1.25rem;
+    color: #343a40;
 }
 
 .menu-item p {
-    margin: 5px 0; 
-    color: #777; 
+    margin: 0.25rem 0;
+    color: #6c757d;
 }
-
 .coffee-icon {
-    height: 40px; 
+    height: 80px; 
     margin-right: 10px; 
-    vertical-align: down; 
+    vertical-align: middle; 
 }
 
 footer {

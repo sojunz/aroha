@@ -15,12 +15,19 @@
             
             <label for="member">Member:</label>
             <select id="member" name="member">
-                <option value="yes" <%= user.member ? 'selected' : '' %>>Yes</option>
-                <option value="no" <%= !user.member ? 'selected' : '' %>>No</option>
+                <option value="1" <%= user.member == 1 ? 'selected' : '' %>>Yes</option>
+                <option value="0" <%= user.member == 0 ? 'selected' : '' %>>No</option>
+            </select>
+            
+            <label for="subscribed">Subscribe:</label>
+            <select id="subscribed" name="subscribed">
+                <option value="1" <%= user.subscribed == 1 ? 'selected' : '' %>>Yes</option>
+                <option value="0" <%= user.subscribed == 0 ? 'selected' : '' %>>No</option>
             </select>
             
             <button type="submit">Update</button>
         </form>
+        
     </div>
 </body>
 <footer>
@@ -28,3 +35,4 @@
     <p>&copy; 2024 Aroha Café | Designed with care.</p>
 </footer>
 </html>
+

@@ -4,6 +4,15 @@ var session = require('express-session');
 var conn = require('./dbconfig');
 const bcrypt = require('bcrypt'); // bcrypt 모듈 가져오기
 
+function queryDatabase(sql) {
+    return new Promise((resolve, reject) => {
+        conn.query(sql, (err, results) => {
+            if (err) reject(err);
+            else resolve(results);
+        });
+    });
+}
+
 app.set('view engine', 'ejs');
 app.use(session({
     secret: 'yoursecrete',
@@ -76,11 +85,11 @@ app.get('/logout', function (req, res) {
     });
 });
 
-app.get('/member', function (req, res) {
-    res.render('member');
+app.get('/register', function (req, res) {
+    res.render('register');
 });
 
-app.post('/member', async function (req, res) {
+app.post('/register', async function (req, res) {
     const { username, email, password } = req.body;
     console.log('Received data:', { username, email, password });
 
@@ -197,11 +206,12 @@ app.get('/admin/edit/:id', function (req, res) {
 
 app.post('/admin/edit/:id', function (req, res) {
     const userId = req.params.id;
-    const { username, email, member } = req.body;
-    const memberStatus = member === 'yes' ? 1 : 0;
-
-    const sql = 'UPDATE users SET username = ?, email = ?, member = ? WHERE id = ?';
-    conn.query(sql, [username, email, memberStatus, userId], function (error, results) {
+    const { username, email, member, subscribed } = req.body;
+    console.log('Received data:', req.body); // 로그 확인
+    const memberStatus = member === '1' ? 1 : 0;
+    const subscribedStatus = subscribed === '1' ? 1 : 0;
+    const sql = 'UPDATE users SET username = ?, email = ?, member = ?, subscribed = ? WHERE id = ?';
+    conn.query(sql, [username, email, memberStatus, subscribedStatus, userId], function (error, results) {
         if (error) {
             console.error('Database update error:', error);
             return res.status(500).send('Failed to update user');
@@ -309,26 +319,28 @@ app.get('/thanks2' , function (req, res) {
     res.render('thanks2');
 });
 
-app.get('/menu', (req, res) => {
-    const sql = 'SELECT * FROM menus';
-    conn.query(sql, (err, results) => {
-        if (err) {
-            console.error('Database query error:', err);
-            return res.status(500).send('Failed to retrieve menu');
-        }
-        res.render('menu', { menus: results });
-    });
+app.get('/menu' ,  async (req, res) => {
+    try {
+        const categories = await queryDatabase('SELECT * FROM categories');
+        const menus = await queryDatabase('SELECT * FROM menus');
+
+        res.render('menu', { categories, menus });
+    } catch (err) {
+        console.error('Database query error:', err);
+        res.status(500).send('Failed to retrieve data');
+    }
 });
 
-app.get('/menu2', (req, res) => {
-    const sql = 'SELECT * FROM menus';
-    conn.query(sql, (err, results) => {
-        if (err) {
-            console.error('Database query error:', err);
-            return res.status(500).send('Failed to retrieve menu');
-        }
-        res.render('menu2', { menus: results });
-    });
+app.get('/menu2' ,  async (req, res) => {
+    try {
+        const categories = await queryDatabase('SELECT * FROM categories');
+        const menus = await queryDatabase('SELECT * FROM menus');
+
+        res.render('menu2', { categories, menus });
+    } catch (err) {
+        console.error('Database query error:', err);
+        res.status(500).send('Failed to retrieve data');
+    }
 });
 
 app.get('/admin/add-menu', (req, res) => {
@@ -345,10 +357,6 @@ app.post('/admin/add-menu', (req, res) => {
         }
         res.redirect('/menu2');
     });
-});
-
-app.get('/menu2', function (req, res) {
-    res.render("menu2");
 });
 
 app.get('/contact', function (req, res) {
