@@ -1,17 +1,9 @@
 var express = require('express');
 var app = express();
 var session = require('express-session');
-var conn = require('./dbconfig');
-const bcrypt = require('bcrypt'); // bcrypt 모듈 가져오기
+var { conn, queryDatabase } = require('./dbConfig');
 
-function queryDatabase(sql) {
-    return new Promise((resolve, reject) => {
-        conn.query(sql, (err, results) => {
-            if (err) reject(err);
-            else resolve(results);
-        });
-    });
-}
+const bcrypt = require('bcrypt'); // bcrypt 모듈 가져오기
 
 app.set('view engine', 'ejs');
 app.use(session({
@@ -19,6 +11,7 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
 app.use('/public', express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -319,11 +312,16 @@ app.get('/thanks2' , function (req, res) {
     res.render('thanks2');
 });
 
-app.get('/menu' ,  async (req, res) => {
+app.get('/menu', async (req, res) => {
     try {
-        const categories = await queryDatabase('SELECT * FROM categories');
-        const menus = await queryDatabase('SELECT * FROM menus');
-
+        const categories = await queryDatabase({
+            sql: 'SELECT * FROM categories',
+            values: []
+        });
+        const menus = await queryDatabase({
+            sql: 'SELECT * FROM menus',
+            values: []
+        });
         res.render('menu', { categories, menus });
     } catch (err) {
         console.error('Database query error:', err);
@@ -331,32 +329,21 @@ app.get('/menu' ,  async (req, res) => {
     }
 });
 
-app.get('/menu2' ,  async (req, res) => {
+app.get('/menu2', async (req, res) => {
     try {
-        const categories = await queryDatabase('SELECT * FROM categories');
-        const menus = await queryDatabase('SELECT * FROM menus');
-
+        const categories = await queryDatabase({
+            sql: 'SELECT * FROM categories',
+            values: []
+        });
+        const menus = await queryDatabase({
+            sql: 'SELECT * FROM menus',
+            values: []
+        });
         res.render('menu2', { categories, menus });
     } catch (err) {
         console.error('Database query error:', err);
         res.status(500).send('Failed to retrieve data');
     }
-});
-
-app.get('/admin/add-menu', (req, res) => {
-    res.render('admin-add');
-});
-
-app.post('/admin/add-menu', (req, res) => {
-    const { name, description, price, category } = req.body;
-    const sql = 'INSERT INTO menus (name, description, price, category) VALUES (?,?,?,?)';
-    conn.query(sql, [name, description || 'No description provided', price, category || 'general'], (err, result) => {
-        if (err) {
-            console.error('Database error:', err);
-            return res.status(500).send('Failed to add menu item');
-        }
-        res.redirect('/menu2');
-    });
 });
 
 app.get('/contact', function (req, res) {

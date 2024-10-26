@@ -27,10 +27,10 @@ body {
 .main-text {
    position: fixed;
    top: 15%;
-   left: 70%;
+   left: 90%;
    transform: translate(-50%, -50%);
    text-align: right;
-   color: green;
+   color: darkmagenta;
 }
 
 .main h1 {
