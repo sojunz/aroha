@@ -346,6 +346,35 @@ app.get('/menu2', async (req, res) => {
     }
 });
 
+// Add menu page route
+app.get('/admin/add-menu', (req, res) => {
+    const categories = [
+        { id: 1, name: 'Coffee' },
+        { id: 2, name: 'Food' },
+        { id: 3, name: 'All' }
+    ];
+    res.render('admin-add', { categories });
+});
+
+app.post('/admin/add-menu', async (req, res) => {
+    const { name, description, price, category } = req.body;
+
+    const query = {
+        sql: 'INSERT INTO menus (name, description, price, category_id) VALUES (?, ?, ?, ?)',
+        values: [name, description, price, category]
+    };
+
+    try {
+        await queryDatabase(query);
+        console.log('New menu item added:', { name, description, price, category });
+        res.send('Menu item added successfully!');
+    } catch (err) {
+        console.error('Error inserting data:', err);
+        res.status(500).send('Error inserting data');
+    }
+});
+
+
 app.get('/contact', function (req, res) {
     res.render("contact");
 });

@@ -33,24 +33,25 @@
                         <p>$<%= menu.price.toFixed(2) %></p>
                     </div>
                 <% }); %>
-            <% }); %>
+            <% }); %>            
         </div>
     </section>
     <footer>
         <p>&copy; 2024 Aroha Café | Designed with care.</p>
     </footer>
-    <script>
-        document.getElementById('category').addEventListener('change', function() {
-            const selectedCategory = this.value;
-            const menuItems = document.querySelectorAll('.menu-item');
+<script>
+    document.getElementById('category').addEventListener('change', function() {
+        const selectedCategory = this.value;
+        const menuItems = document.querySelectorAll('.menu-item');
+        
+        if (selectedCategory === '3') {
+            menuItems.forEach(item => item.style.display = 'block');
+        } else {
             menuItems.forEach(item => {
                 item.style.display = item.dataset.categoryId === selectedCategory ? 'block' : 'none';
             });
-        });
-    </script>
+        }
+    });
+</script>
 </body>
 </html>
-
-
-
-
