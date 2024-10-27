@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/public/css/contact.css">
 </head>
 <body>
-    <%- include('partials/navbar1.ejs') %>
+    <%- include('partials/navbar2.ejs') %>
     <header>
         <h1>Aroha Cafe</h1>
     </header>
@@ -28,28 +28,17 @@
             <p>Email: info@arohacafe.co.nz</p>
             <p>Opening Hours: 7:30am – 16:00pm</p>
             <p>Monday to Friday</p>
-            <div id="map" style="height: 400px; width: 100%;"></div>
+            <div id="map" style="height: 50px; width: 100%;"></div>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.603035506215!2d174.76169157744408!3d-36.85198207968887!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d0d47e50d21935b%3A0x363ac134e56a113a!2s350%20Queen%20Street%2C%20Auckland%20CBD%2C%20Auckland%201010!5e0!3m2!1sen!2snz!4v1729987867412!5m2!1sen!2snz" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>  
         </div>
     </main>
     <section class="icon">
-        <img src="/public/images/pancake.png" alt="pancake" class="pancake-icon">
         <img src="/public/images/coffee.png" alt="pancake" class="pancake-icon">
     </section>
     <footer>
-        <img src="/public/images/arohacafe.png" alt="arohacafe" class="coffee-icon">
-        <p>&copy; 2024 Aroha Cafe. All</p>
-        <script>
-            function initMap() {
-                var location = {lat: -36.8520239, lng: 174.7644089}; // 제공하신 주소에 맞춘 위치
-                var map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 15,
-                    center: location
-                });
-                var marker = new google.maps.Marker({
-                    position: location,
-                    map: map
-                });
-            }
-        </script> 
-        <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>       
+        <img src="/public/images/pancake.png" alt="arohacafe" class="coffee-icon">
+        <p>&copy; 2024 Aroha Café | Designed with care.</p>
+    </footer>
+    <footer>      
 </html>
+

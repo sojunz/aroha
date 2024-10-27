@@ -1,6 +1,6 @@
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Courier New', Courier, monospace;
     background-color: #f4f4f4;
     display: flex;
     justify-content: center;
@@ -84,4 +84,12 @@ background-color: darkkhaki;
             margin-top: 20px;
             color: green;
         }
-   
+        footer {
+            color: black;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        
