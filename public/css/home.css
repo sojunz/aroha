@@ -1,6 +1,8 @@
 
 body {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Lavishly Yours", cursive;
+    font-weight: 600;
+    background: whitesmoke;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -23,25 +25,44 @@ body {
     object-fit: contain; 
     
 }
-    
 
 .home-text {
     position: absolute;
-    top: 20%;
-    left: 80%;
+    top: 15%;
+    left: 20%;
     transform: translate(-50%, -50%);
     text-align: right;
     color: green;
 }
 
-.home h1 {
-    font-size: 20px;
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+  }
+  
+  .typing {
+    overflow: hidden; /* 넘치는 글자를 숨기기 위해 사용 */
+    white-space: nowrap; /* 한 줄로 이어지도록 설정 */
+    animation: typing 4s steps(30, end), blink-caret .75s step-end infinite;
+    border-right: 2px solid; /* 커서 효과 */
+  }
+  
+  @keyframes blink-caret {
+    from, to { border-color: transparent; }
+    50% { border-color: black; }
+  }
+  
+  .home h1 {
+    font-size: 80px;
     margin: 0;
-    color: orangered;
-}
-
+    color: palevioletred;
+    width: fit-content; /* 글자 길이에 맞게 크기 조절 */
+    display: inline-block;
+    animation: typing 4s steps(30, end), blink-caret .75s step-end infinite;
+  }
+  
 .home p {
-    font-size: 10px;
+    font-size: 30px;
 }
 
 .about {

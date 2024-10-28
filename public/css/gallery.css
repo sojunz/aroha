@@ -1,5 +1,5 @@
 body {
-    font-family:'Courier New', Courier, monospace;
+    font-family:"Lavishly Yours", cursive;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -62,12 +62,12 @@ button {
 }
 
 .about-section h2 {
-    font-size: 24px;
+    font-size: 40px;
     margin-bottom: 10px;
 }
 
 .about-section p {
-    font-size: 16px;
+    font-size: 20px;
     margin-bottom: 10px;
 }
 

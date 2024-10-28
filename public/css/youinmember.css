@@ -1,18 +1,17 @@
-
 body {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Lavishly Yours", cursive;
     background-color: #f8f5f2;
     margin: 0;
     padding: 0;
 }
 h3 {
     color: #6b4f4f;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Playfair Display", serif;
 }
 
 p {
     color: #8b7d7b;
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Playfair Display", serif;
 }
 
 a {

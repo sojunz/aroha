@@ -1,6 +1,6 @@
 body {
-    font-family: 'Courier New', Courier, monospace;
-    background-color: #f8f9fa;
+    font-family: "Lavishly Yours", cursive;
+    background: burlywood;
     color: #333;
     margin: 0;
     padding: 0;
@@ -14,7 +14,7 @@ body {
 }
 
 #category {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Playfair Display", serif;
     font-size: 1rem;
     padding: 0.5rem;
     border: 1px solid #343a40;
@@ -59,6 +59,7 @@ body {
     margin: 0.25rem 0;
     color: #6c757d;
 }
+
 .coffee-icon {
     height: 80px; 
     margin-right: 10px; 
