@@ -6,12 +6,12 @@ body {
 }
 h3 {
     color: #6b4f4f;
-    font-family: "Playfair Display", serif;
+    font-family: "Lavishly Yours", cursive;
 }
 
 p {
     color: #8b7d7b;
-    font-family: "Playfair Display", serif;
+    font-family: "Lavishly Yours", cursive;
 }
 
 a {
@@ -52,7 +52,7 @@ background-color: olive;
     }
 
 .coffee-icon {
-    height: 40px; 
+    height: 80px; 
     margin-right: 10px; 
     vertical-align: down; 
     }

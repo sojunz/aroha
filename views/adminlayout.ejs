@@ -1,0 +1,25 @@
+<html>
+<head>
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/public/css/dashboard.css">
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <ul>
+                <% navItems.forEach(function(item) { %>
+                    <li><a href="<%= item.url %>"><%= item.name %></a></li>
+                <% }); %>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <%- body %>
+    </main>
+</body>
+<footer>
+    <img src="/public/images/draw.png" alt="arohacafe" class="coffee-icon">
+    <p>&copy; 2024 Aroha Café | Designed with care.</p>
+</footer>     
+</html>

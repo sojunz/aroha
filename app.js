@@ -170,6 +170,93 @@ app.get('/thanks2' , function (req, res) {
     res.render('thanks2');
 });
 
+const plainPassword = '55555'; // 새로운 비밀번호
+const username = 'kim'; // 새로운 사용자 이름
+const adminFlag = 1; // 관리자 플래그
+
+bcrypt.hash(plainPassword, 10, function(err, hash) {
+    if (err) {
+        console.error('Error hashing password:', err);
+        return;
+    }
+
+    const sql = 'INSERT INTO adminlogin (username, password, admin) VALUES (?, ?, ?)';
+    conn.query(sql, [username, hash, adminFlag], function(error, results) {
+        if (error) {
+            console.error('Database insert error:', error);
+            return;
+        }
+        console.log('New admin user registered:', results);
+    });
+});
+
+app.post('/admin/login', function (req, res) {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    if (username && password) {
+        conn.query('SELECT * FROM adminlogin WHERE username = ?', [username], function (error, results) {
+            if (error) {
+                console.error('Database query error:', error);
+                return res.status(500).send('An error occurred');
+            }
+            console.log('Query results:', results);
+
+            if (results.length > 0) {
+                const user = results[0];
+                console.log('Stored password:', user.password);
+                console.log('Entered password:', password);
+
+                bcrypt.compare(password, user.password, function (err, result) {
+                    if (err) {
+                        console.error('bcrypt compare error:', err);
+                        return res.status(500).send('An error occurred');
+                    }
+                    console.log('Password match:', result);
+
+                    if (result) {
+                        req.session.loggedin = true;
+                        req.session.username = username;
+                        req.session.admin = true;
+                        res.redirect('/admin/dashboard');
+                    } else {
+                        res.send('Incorrect Username and/or Password!');
+                    }
+                });
+            } else {
+                res.send('Incorrect Username and/or Password!');
+            }
+        });
+    } else {
+        res.send('Please enter Username and Password!');
+    }
+});
+
+
+app.get('/adminlogin', function (req, res) {
+    res.render('adminlogin');
+});
+
+app.get('/adminlayout', function (req, res) {
+    res.render('adminlayout');
+});
+
+app.get('/admin/dashboard', function (req, res) {
+    if (req.session.loggedin && req.session.admin) {
+        res.render('adminlayout', {
+            pageTitle: 'Admin Dashboard',
+            navItems: [
+                { name: 'Message', url: '/viewmessages' },
+                { name: 'Admin Users', url: '/admin/users' },
+                { name: 'Admin Menu', url: '/admin/add-menu' }
+            ],
+            body: '<h2>Welcome to Admin Dashboard</h2>'
+        });
+    } else {
+        res.redirect('/adminlogin');
+    }
+});
+
 app.get('/admin', function (req, res) {
     res.render('admin');
 });
@@ -374,7 +461,6 @@ app.post('/admin/add-menu', async (req, res) => {
     }
 });
 
-
 app.get('/contact', function (req, res) {
     res.render("contact");
 });
@@ -410,15 +496,23 @@ app.post(['/contact', '/contact2'], function (req, res) {
     });
 });
 
-app.get('/viewmessages', (req, res) => {
-    conn.query('SELECT * FROM contactus', (error, results) => {
-        if (error) {
-            console.error('Database query error:', error);
-            res.status(500).send('An error occurred');
-            return;
-        }
-        res.render('viewmessages', { messages: results });
-    });
+app.get('/viewmessages', function (req, res) {
+    if (req.session.loggedin && req.session.admin) {
+        // contactus 테이블에서 데이터 불러오기
+        conn.query('SELECT * FROM contactus', function (error, results) {
+            if (error) {
+                console.error('Database query error:', error);
+                return res.status(500).send('An error occurred');
+            }
+
+            res.render('viewmessages', {
+                pageTitle: 'Customer Messages',
+                messages: results
+            });
+        });
+    } else {
+        res.redirect('/adminlogin');
+    }
 });
 
 app.post('/deletemessage', (req, res) => {

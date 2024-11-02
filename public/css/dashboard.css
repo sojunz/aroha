@@ -1,0 +1,77 @@
+/* adminlayout.css */
+body {
+    font-family: Lexend Deca, sans-serif;
+    background-color: #f4f6f9;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: pink;
+    color: #fff;
+    padding: 3rem;
+    text-align: center;
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+nav ul {
+    list-style: none;
+    padding: 1rem;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    background-color: olive;
+}
+
+nav ul li {
+    margin: 0 1rem;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    display: block;
+}
+
+nav ul li a:hover {
+    background-color: #0056b3;
+    border-radius: 4px;
+}
+
+main {
+    padding: 2rem;
+    background-color: #fff;
+    border-radius: 8px;
+    margin: 1rem auto;
+    width: 80%;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+main h2 {
+    color: #333;
+}
+
+main .content {
+    margin-top: 1rem;
+}
+
+.coffee-icon {
+    height: 90px; 
+    margin-right: 10px; 
+    vertical-align: middle; 
+ } 
+ 
+ footer {
+    color: black;
+    text-align: center;
+    padding: 1px 0;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+ }
+ 
