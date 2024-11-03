@@ -247,8 +247,8 @@ app.get('/admin/dashboard', function (req, res) {
             pageTitle: 'Admin Dashboard',
             navItems: [
                 { name: 'Message', url: '/viewmessages' },
-                { name: 'Admin Users', url: '/admin/users' },
-                { name: 'Admin Menu', url: '/admin/add-menu' }
+                { name: 'Users', url: '/admin/users' },
+                { name: 'Menu', url: '/admin/add-menu' }
             ],
             body: '<h2>Welcome to Admin Dashboard</h2>'
         });

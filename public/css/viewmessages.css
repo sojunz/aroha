@@ -18,6 +18,16 @@ header h1 {
     font-size: 2rem;
 }
 
+a {
+    color: lightcoral;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 main {
     padding: 20px;
 }

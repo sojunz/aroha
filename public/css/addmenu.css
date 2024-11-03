@@ -3,12 +3,22 @@ body {
     background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    text-align: center;
 }
 
 h2 {
     color: #333;
-    text-align: center;
     margin-top: 20px;
+}
+
+a {
+    color: lightcoral; /* Same color as your links */
+    text-decoration: none;
+    margin-right: 0; /* Reset any right margin */  
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 form {

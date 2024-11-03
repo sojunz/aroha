@@ -5,21 +5,25 @@
 </head>
 <body>
     <header>
-        <h1>Admin Dashboard</h1>
-        <nav>
+        <h1>Admin Aroha cafe</h1>
+        <a href="/special-event" id="logo">
+            <img src="/public/images/logo.png" alt="Logo" class="logo">
+        </a>     
+        <nav>   
             <ul>
                 <% navItems.forEach(function(item) { %>
                     <li><a href="<%= item.url %>"><%= item.name %></a></li>
                 <% }); %>
             </ul>
-        </nav>
     </header>
     <main>
         <%- body %>
+        <img src="/public/images/admin.jpg" alt="admin">
     </main>
 </body>
 <footer>
     <img src="/public/images/draw.png" alt="arohacafe" class="coffee-icon">
     <p>&copy; 2024 Aroha Café | Designed with care.</p>
+    <a href="/mainhome">Customer</a>
 </footer>     
 </html>

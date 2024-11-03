@@ -4,12 +4,12 @@
     <link rel="stylesheet" href="/public/css/viewmessages.css">
 </head>
 <body>
-    <%- include('partials/navbar1.ejs') %>
     <header>
         <h1>Aroha Cafe</h1>
     </header>
     <main>
         <h2>Customer Messages</h2>
+        <a href="/admin/dashboard">Admin</a>
         <div class="messages">
             <% messages.forEach(function(message) { %>
                 <div class="message">
