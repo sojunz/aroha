@@ -248,7 +248,8 @@ app.get('/admin/dashboard', function (req, res) {
             navItems: [
                 { name: 'Message', url: '/viewmessages' },
                 { name: 'Users', url: '/admin/users' },
-                { name: 'Menu', url: '/admin/add-menu' }
+                { name: 'Add Menu', url: '/admin/addmenu' },
+                { name: 'Edit Menu', url: '/admin/editmenu' } // ID를 포함한 URL로 수정
             ],
             body: '<h2>Welcome to Admin Dashboard</h2>'
         });
@@ -326,7 +327,6 @@ app.post('/newsletter', function (req, res) {
         return res.status(400).send('All fields are required!');
     }
 
-    // Check if the email already exists with a different username
     const checkSql = 'SELECT * FROM users WHERE email = ?';
     conn.query(checkSql, [email], (checkErr, checkResult) => {
         if (checkErr) {
@@ -338,7 +338,6 @@ app.post('/newsletter', function (req, res) {
             return res.status(400).send('Email is already registered with a different username');
         }
 
-        // Proceed with inserting or updating the user
         const sql = `INSERT INTO users (username, email, subscribed, member) VALUES (?, ?, 1, 0)
                      ON DUPLICATE KEY UPDATE subscribed = 1, username = VALUES(username), member = 0`;
 
@@ -353,10 +352,6 @@ app.post('/newsletter', function (req, res) {
     });
 });
 
-app.get('/thanks', function (req, res) {
-    res.render('thanks');
-});
-
 app.get('/newsletter2', function (req, res) {
     res.render("newsletter2");
 });
@@ -369,7 +364,6 @@ app.post('/newsletter2', function (req, res) {
         return res.status(400).send('All fields are required!');
     }
 
-    // Check if the email already exists with a different username
     const checkSql = 'SELECT * FROM users WHERE email = ?';
     conn.query(checkSql, [email], (checkErr, checkResult) => {
         if (checkErr) {
@@ -381,9 +375,9 @@ app.post('/newsletter2', function (req, res) {
             return res.status(400).send('Email is already registered with a different username');
         }
 
-        // Proceed with inserting or updating the user
         const sql = `INSERT INTO users (username, email, subscribed, member) VALUES (?, ?, 1, 0)
                      ON DUPLICATE KEY UPDATE subscribed = 1, username = VALUES(username), member = 1`;
+
         conn.query(sql, [username, email], (err, result) => {
             if (err) {
                 console.error('Database error:', err.message);
@@ -393,10 +387,6 @@ app.post('/newsletter2', function (req, res) {
             res.redirect('/thanks2');
         });
     });
-});
-
-app.get('/thanks2' , function (req, res) {
-    res.render('thanks2');
 });
 
 app.get('/menu', async (req, res) => {
@@ -416,7 +406,49 @@ app.get('/menu', async (req, res) => {
     }
 });
 
-app.get('/menu2', async (req, res) => {
+app.get('/menu2', async (req, res) => { 
+    try { 
+    const categories = await queryDatabase({ 
+    sql: 'SELECT * FROM categories', values: [] }); 
+    const menus = await queryDatabase({ sql: 'SELECT * FROM menus', 
+        values: [] 
+    }); 
+        res.render('menu2', { categories, menus }); 
+        } catch (err) { 
+            console.error('Database query error:', err); 
+            res.status(500).send('Failed to retrieve data');
+                    }
+    });
+
+app.get('/admin/addmenu', (req, res) => {
+    const categories = [
+        { id: 1, name: 'Coffee' },
+        { id: 2, name: 'Food' },
+        { id: 3, name: 'Dessert' }
+    ];
+    res.render('addmenu', { categories });
+});
+
+app.post('/admin/addmenu', async (req, res) => {
+    const { name, description, price, category, status } = req.body;
+
+    const query = {
+        sql: 'INSERT INTO menus (name, description, price, category_id, status) VALUES (?, ?, ?, ?, ?)',
+        values: [name, description, price, category, status]
+    };
+
+    try {
+        await queryDatabase(query);
+        console.log('New menu item added:', { name, description, price, category, status });
+        res.send('Menu item added successfully!'); // 성공 메시지 반환
+    } catch (err) {
+        console.error('Error inserting data:', err);
+        res.status(500).send('Error inserting data');
+    }
+});
+
+// 관리자용 메뉴 페이지 (editmenu를 사용)
+app.get('/admin/editmenu', async (req, res) => {
     try {
         const categories = await queryDatabase({
             sql: 'SELECT * FROM categories',
@@ -426,38 +458,60 @@ app.get('/menu2', async (req, res) => {
             sql: 'SELECT * FROM menus',
             values: []
         });
-        res.render('menu2', { categories, menus });
+        res.render('editmenu', { categories, menus });
     } catch (err) {
         console.error('Database query error:', err);
         res.status(500).send('Failed to retrieve data');
     }
 });
 
-// Add menu page route
-app.get('/admin/add-menu', (req, res) => {
-    const categories = [
-        { id: 1, name: 'Coffee' },
-        { id: 2, name: 'Food' },
-        { id: 3, name: 'All' }
-    ];
-    res.render('admin-add', { categories });
+// 개별 메뉴 아이템 편집 페이지
+app.get('/admin/editmenu/:id', async (req, res) => {
+    const menuId = req.params.id;
+    try {
+        const item = await queryDatabase({
+            sql: 'SELECT * FROM menus WHERE id = ?',
+            values: [menuId]
+        });
+        if (item.length > 0) {
+            res.render('editmenuitem', { item: item[0], categories: await queryDatabase({ sql: 'SELECT * FROM categories', values: [] }) });
+        } else {
+            res.status(404).send('Item not found');
+        }
+    } catch (err) {
+        console.error('Database query error:', err);
+        res.status(500).send('Failed to fetch menu item');
+    }
 });
 
-app.post('/admin/add-menu', async (req, res) => {
-    const { name, description, price, category } = req.body;
-
-    const query = {
-        sql: 'INSERT INTO menus (name, description, price, category_id) VALUES (?, ?, ?, ?)',
-        values: [name, description, price, category]
-    };
-
+// 메뉴 아이템 업데이트 라우트
+app.post('/admin/editmenu/:id', async (req, res) => {
+    const menuId = req.params.id;
+    const { name, description, price, category_id, status } = req.body;
     try {
-        await queryDatabase(query);
-        console.log('New menu item added:', { name, description, price, category });
-        res.send('Menu item added successfully!');
+        await queryDatabase({
+            sql: 'UPDATE menus SET name = ?, description = ?, price = ?, category_id = ?, status = ? WHERE id = ?',
+            values: [name, description, price, category_id, status, menuId]
+        });
+        res.redirect('/admin/editmenu');
     } catch (err) {
-        console.error('Error inserting data:', err);
-        res.status(500).send('Error inserting data');
+        console.error('Database update error:', err);
+        res.status(500).send('Failed to update menu item');
+    }
+});
+
+// 메뉴 아이템 삭제 라우트
+app.get('/admin/deletemenu/:id', async (req, res) => {
+    const menuId = req.params.id;
+    try {
+        await queryDatabase({
+            sql: 'DELETE FROM menus WHERE id = ?',
+            values: [menuId]
+        });
+        res.redirect('/admin/editmenu');
+    } catch (err) {
+        console.error('Database delete error:', err);
+        res.status(500).send('Failed to delete menu item');
     }
 });
 

@@ -6,8 +6,8 @@
 <body>
     <h2>Add Menu Item</h2>
     <a href="/admin/dashboard">Admin</a>
-    <form action="/admin/add-menu" method="post">
-        <label for="name">Name</label>
+    <form action="/admin/addmenu" method="post">
+        <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
         <br>
         <label for="description">Description:</label>
@@ -21,6 +21,12 @@
             <% categories.forEach(category => { %>
                 <option value="<%= category.id %>"><%= category.name %></option>
             <% }); %>
+        </select>
+        <br>
+        <label for="status">Status:</label>
+        <select id="status" name="status">
+            <option value="available">Available</option>
+            <option value="out_of_order">Out of Order</option>
         </select>
         <br>
         <button type="submit">Add Item</button>

@@ -8,6 +8,16 @@ body {
     font-family: Lexend Deca, sans-serif;
 }
 
+img {
+    position: contain;
+    top: 0;
+    left: 0;
+    width: 90%;
+    height: 70%;
+    object-fit: contain; 
+    
+}
+
 .login-container {
     background-color: #fff;
     padding: 2rem;

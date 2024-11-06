@@ -39,7 +39,7 @@ input[type="submit"] {
    padding: 10px;
    border: none;
    border-radius: 5px;
-   background-color: lightcoral;
+   background-color: lightpink;
    color: white;
    cursor: pointer;
 }
@@ -63,6 +63,16 @@ h4 a:hover {
    max-width: 300px;
    border-radius: 10px;
    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+a {
+   color: lightcoral;
+   text-decoration: none;
+   margin-right: 10px;
+}
+
+a:hover {
+   text-decoration: underline;
 }
 
 footer {

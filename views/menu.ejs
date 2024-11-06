@@ -28,9 +28,12 @@
                 <h3><%= category.name %></h3>
                 <% menus.filter(menu => menu.category_id === category.id).forEach(menu => { %>
                     <div class="menu-item" data-category-id="<%= menu.category_id %>">
-                        <h3><%= menu.name %></h3>
-                        <p><%= menu.description %></p>
-                        <p>$<%= menu.price.toFixed(2) %></p>
+                        <h3><%= menu.name %></h3> 
+                        <p><%= menu.description %></p> 
+                        <p>$<%= menu.price.toFixed(2) %></p> 
+                        <% if (menu.status === 'out_of_order') { %> 
+                            <p style="color: red;">Out of Order</p> <!-- 상태 표시 --> 
+                            <% } %>
                     </div>
                 <% }); %>
             <% }); %>            

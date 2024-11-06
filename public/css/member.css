@@ -1,5 +1,5 @@
 body {
-    font-family: "Playfair Display", serif;
+    font-family: "Lavishly Yours", cursive;
     background-color: #f9f9f9;
     margin: 0;
     padding: 0;
@@ -38,19 +38,28 @@ input[type="password"] {
 }
 
 button {
-    padding: 10px 20px;
-    background-color: pink;
+    padding: 10px 0px;
+    background-color: lightpink;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    width: 100%;
-    max-width: 300px;
+    width: 400%;
+    max-width: 500px;
 }
         
 button hover {
 background-color: olive;
 }
+
+h4 a {
+    color: darkorange;
+    text-decoration: none;
+ }
+ 
+ h4 a:hover {
+    text-decoration: underline;
+ }
 
 .coffee-icon {
     height: 80px; 

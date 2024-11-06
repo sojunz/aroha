@@ -1,3 +1,4 @@
+<!-- views/menu2.ejs -->
 <html>
 <head>
     <link rel="stylesheet" href="/public/css/menu.css">
@@ -31,6 +32,9 @@
                         <h3><%= menu.name %></h3>
                         <p><%= menu.description %></p>
                         <p>$<%= menu.price.toFixed(2) %></p>
+                        <% if (menu.status === 'out_of_order') { %>
+                            <p style="color: red;">Out of Order</p> <!-- 상태 표시 -->
+                        <% } %>
                     </div>
                 <% }); %>
             <% }); %>            
@@ -44,7 +48,7 @@
         const selectedCategory = this.value;
         const menuItems = document.querySelectorAll('.menu-item');
         
-        if (selectedCategory === '3') { // Assuming '3' is the ID for 'ALL'
+        if (selectedCategory === '3') {
             menuItems.forEach(item => item.style.display = 'block');
         } else {
             menuItems.forEach(item => {

@@ -1,0 +1,37 @@
+<html>
+<head>
+    <link rel="stylesheet" href="/public/css/edititem.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Edit Menu Item</h2>
+        <form action="/admin/editmenu/<%= item.id %>" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" value="<%= item.name %>">
+            
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" value="<%= item.description %>">
+            
+            <label for="price">Price:</label>
+            <input type="text" id="price" name="price" value="<%= item.price %>">
+            
+            <label for="category_id">Category:</label>
+            <select id="category_id" name="category_id">
+                <% categories.forEach(category => { %>
+                    <option value="<%= category.id %>" <%= item.category_id == category.id ? 'selected' : '' %>><%= category.name %></option>
+                <% }); %>
+            </select>
+            
+            <label for="status">Status:</label>
+            <input type="text" id="status" name="status" value="<%= item.status %>">
+            
+            <button type="submit">Save Changes</button>
+        </form>
+        <a href="/admin/editmenu">Admin/menu</a>
+    </div>
+</body>
+<footer>
+    <img src="/public/images/arohacafe.png" alt="logo" class="coffee-icon">
+    <p>&copy; 2024 Aroha Café | Designed with care.</p>
+</footer>
+</html>

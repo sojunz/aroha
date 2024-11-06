@@ -1,0 +1,51 @@
+<html>
+<head>
+    <link rel="stylesheet" href="/public/css/editmenu.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Admin Menu Items</h2>
+        <a href="/admin/dashboard">Admin</a>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Category ID</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            <% menus.forEach(function(menu) { %>
+            <tr>
+                <td><%= menu.name %></td>
+                <td><%= menu.description %></td>
+                <td><%= menu.price %></td>
+                <td><%= menu.category_id %></td>
+                <td><%= menu.status %></td>
+                <td>
+                    <a href="/admin/editmenu/<%= menu.id %>">Edit</a>
+                    <a href="/admin/deletemenu/<%= menu.id %>">Delete</a>
+                </td>
+            </tr>
+            <% }); %>
+        </table>
+    </div>
+</body>
+<footer>
+    <img src="/public/images/cupcake.png" alt="logo" class="coffee-icon">
+    <p>&copy; 2024 Aroha Café | Designed with care.</p>
+</footer>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+

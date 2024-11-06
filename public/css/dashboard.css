@@ -82,6 +82,16 @@ img {
     vertical-align: middle; 
  } 
  
+ a {
+    color: lightcoral;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
  footer {
     color: black;
     text-align: center;
