@@ -4,6 +4,7 @@ var session = require('express-session');
 var { conn, queryDatabase } = require('./dbConfig');
 
 const bcrypt = require('bcrypt'); // bcrypt 모듈 가져오기
+const flash = require('connect-flash');
 
 app.set('view engine', 'ejs');
 app.use(session({
@@ -15,6 +16,13 @@ app.use(session({
 app.use('/public', express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(session({ secret: 'yourSecret', resave: false, saveUninitialized: true })); 
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.successMessage = req.flash('successMessage');
+    next();
+});
 
 app.get('/', function (req, res) {
     res.render("home");
@@ -232,7 +240,6 @@ app.post('/admin/login', function (req, res) {
     }
 });
 
-
 app.get('/adminlogin', function (req, res) {
     res.render('adminlogin');
 });
@@ -321,6 +328,7 @@ app.get('/newsletter', function (req, res) {
 
 app.post('/newsletter', function (req, res) {
     const { username, email } = req.body;
+    const password = req.body.password || ''; // 기본값으로 빈 문자열 설정
 
     if (!username || !email) {
         console.error('Validation error: All fields are required!');
@@ -338,10 +346,10 @@ app.post('/newsletter', function (req, res) {
             return res.status(400).send('Email is already registered with a different username');
         }
 
-        const sql = `INSERT INTO users (username, email, subscribed, member) VALUES (?, ?, 1, 0)
+        const sql = `INSERT INTO users (username, email, password, subscribed, member) VALUES (?, ?, ?, 1, 0)
                      ON DUPLICATE KEY UPDATE subscribed = 1, username = VALUES(username), member = 0`;
 
-        conn.query(sql, [username, email], (err, result) => {
+        conn.query(sql, [username, email, password], (err, result) => {
             if (err) {
                 console.error('Database error:', err.message);
                 return res.status(500).send('Failed to subscribe');
@@ -408,7 +416,7 @@ app.get('/menu', async (req, res) => {
 
 app.get('/menu2', async (req, res) => { 
     try { 
-    const categories = await queryDatabase({ 
+    const categories = await queryDatabase({
     sql: 'SELECT * FROM categories', values: [] }); 
     const menus = await queryDatabase({ sql: 'SELECT * FROM menus', 
         values: [] 
@@ -440,7 +448,8 @@ app.post('/admin/addmenu', async (req, res) => {
     try {
         await queryDatabase(query);
         console.log('New menu item added:', { name, description, price, category, status });
-        res.send('Menu item added successfully!'); // 성공 메시지 반환
+        req.flash('Menu item added successfully!'); // 성공 메시지 반환
+        res.redirect('/admin/dashboard')
     } catch (err) {
         console.error('Error inserting data:', err);
         res.status(500).send('Error inserting data');

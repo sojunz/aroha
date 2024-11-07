@@ -6,6 +6,11 @@
 <body>
     <h2>Add Menu Item</h2>
     <a href="/admin/dashboard">Admin</a>
+    <% if (successMessage && successMessage.length > 0) { %> 
+        <div class="alert success"> 
+            <%= successMessage %> 
+        </div> 
+        <% } %>
     <form action="/admin/addmenu" method="post">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
