@@ -322,6 +322,28 @@ app.get('/admin/delete/:id', function (req, res) {
     });
 });
 
+// 클라이언트 측 코드
+function confirmUserDelete(userId) {
+    if (confirm('이 사용자를 정말 삭제하시겠습니까?')) {
+        window.location.href = `/admin/delete/${userId}`;
+    }
+}
+
+// 서버 측 코드
+app.get('/admin/delete/:id', function (req, res) {
+    const userId = req.params.id;
+    console.log('Deleting user with ID:', userId); // 디버그용 로그 추가
+    conn.query('DELETE FROM users WHERE id = ?', [userId], function (error, results) {
+        if (error) {
+            console.error('Database delete error:', error);
+            return res.status(500).send('사용자 삭제에 실패했습니다');
+        }
+        console.log('User deleted:', results);
+        res.redirect('/admin/users'); // 슬래시를 추가해 경로 수정
+    });
+});
+
+
 app.get('/newsletter', function (req, res) {
     res.render("newsletter");
 });
@@ -497,6 +519,7 @@ app.get('/admin/editmenu/:id', async (req, res) => {
 app.post('/admin/editmenu/:id', async (req, res) => {
     const menuId = req.params.id;
     const { name, description, price, category_id, status } = req.body;
+  
     try {
         await queryDatabase({
             sql: 'UPDATE menus SET name = ?, description = ?, price = ?, category_id = ?, status = ? WHERE id = ?',
@@ -517,6 +540,31 @@ app.get('/admin/deletemenu/:id', async (req, res) => {
             sql: 'DELETE FROM menus WHERE id = ?',
             values: [menuId]
         });
+        res.redirect('/admin/editmenu');
+    } catch (err) {
+        console.error('Database delete error:', err);
+        res.status(500).send('Failed to delete menu item');
+    }
+});
+
+// Client-side code
+function confirmDelete(menuId) {
+    console.log('Deleting menu with ID:', menuId); // Added debug log
+    if (confirm('Are you sure you want to delete this menu item?')) {
+        window.location.href = `/admin/deletemenu/${menuId}`;
+    }
+}
+
+// Server-side code
+app.get('/admin/deletemenu/:id', async (req, res) => {
+    const menuId = req.params.id;
+    console.log('Received delete request for menu ID:', menuId); // Added debug log
+    try {
+        await queryDatabase({
+            sql: 'DELETE FROM menus WHERE id = ?',
+            values: [menuId]
+        });
+        console.log('Menu deleted:', menuId); // Added success log
         res.redirect('/admin/editmenu');
     } catch (err) {
         console.error('Database delete error:', err);

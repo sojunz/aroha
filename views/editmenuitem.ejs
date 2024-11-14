@@ -23,9 +23,11 @@
                 <% }); %>
             </select>
             
-            <label for="status">Status:</label>
-            <input type="text" id="status" name="status" value="<%= item.status %>">
-            
+            <label for="status">Status:</label> 
+            <select id="status" name="status"> 
+                <option value="available" <%= item.status === 'available' ? 'selected' : '' %>>Available</option> 
+                <option value="out_of_order" <%= item.status === 'out_of_order' ? 'selected' : '' %>>Out of Order</option>
+            </select>
             <button type="submit">Save Changes</button>
         </form>
         <a href="/admin/editmenu">Admin/menu</a>
