@@ -324,7 +324,7 @@ app.get('/admin/delete/:id', function (req, res) {
 
 // 클라이언트 측 코드
 function confirmUserDelete(userId) {
-    if (confirm('이 사용자를 정말 삭제하시겠습니까?')) {
+    if (confirm('Are you sure you want to delete this user?')) {
         window.location.href = `/admin/delete/${userId}`;
     }
 }
@@ -336,7 +336,7 @@ app.get('/admin/delete/:id', function (req, res) {
     conn.query('DELETE FROM users WHERE id = ?', [userId], function (error, results) {
         if (error) {
             console.error('Database delete error:', error);
-            return res.status(500).send('사용자 삭제에 실패했습니다');
+            return res.status(500).send('Failed to delete the user');
         }
         console.log('User deleted:', results);
         res.redirect('/admin/users'); // 슬래시를 추가해 경로 수정
