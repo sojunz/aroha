@@ -329,21 +329,6 @@ function confirmUserDelete(userId) {
     }
 }
 
-// 서버 측 코드
-app.get('/admin/delete/:id', function (req, res) {
-    const userId = req.params.id;
-    console.log('Deleting user with ID:', userId); // 디버그용 로그 추가
-    conn.query('DELETE FROM users WHERE id = ?', [userId], function (error, results) {
-        if (error) {
-            console.error('Database delete error:', error);
-            return res.status(500).send('Failed to delete the user');
-        }
-        console.log('User deleted:', results);
-        res.redirect('/admin/users'); // 슬래시를 추가해 경로 수정
-    });
-});
-
-
 app.get('/newsletter', function (req, res) {
     res.render("newsletter");
 });

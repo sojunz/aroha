@@ -27,40 +27,26 @@ body {
 
 .image-gallery img {
    width: 100%; /* 열 너비에 맞게 조정 */
-   height: auto; /* 비율 유지 */
-   border-radius: 8px; /* 부드러운 모서리 */
-   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+   height: 800px; /* 고정 높이 설정 */
+   object-fit: cover; /* 이미지 비율 유지하면서 영역을 채우기 */
+   border-radius: 8px;
+   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
-
 /* .main-text 중앙 배치 */
 .main-text {
    text-align: center;
    color: palevioletred;
    z-index: 1; /* 텍스트가 다른 요소 위에 오도록 */
 }
-
 /* h1 스타일 */
 .main-text h1 {
    font-size: 80px;
    margin: 0;
    width: fit-content; /* 글자 길이에 맞게 크기 조절 */
    display: inline-block;
-   animation: typing 4s steps(30, end), blink-caret .75s step-end infinite;
    color: palevioletred;
 }
 
-/* 타이핑 애니메이션 */
-@keyframes typing {
-   from { width: 0; }
-   to { width: 100%; }
-}
-
-@keyframes blink-caret {
-   from, to { border-color: transparent; }
-   50% { border-color: black; }
-}
-
- 
  .main-text h1 {
    font-size: 80px;
    margin: 0;
